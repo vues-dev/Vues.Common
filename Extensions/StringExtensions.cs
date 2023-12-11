@@ -96,5 +96,21 @@ namespace Vues.Common.Extensions
 
             return input.Replace(' ', '-').ToLower();
         }
+
+        /// <summary>
+        /// Returns a string with first upper letter
+        /// </summary>
+        /// <param name="input">The input string to convert.</param>
+        /// <returns>The converted string with first upper letter.</returns>
+        public static string Capitalize (this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                        return input;
+
+            if (input.Length > 1)
+                return char.ToUpper(input[0]) + input.Substring(1);
+
+            return input.ToUpper();
+        }
     }
 }
