@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Text;
+using System.Globalization;
+
 namespace Vues.Common.Extensions
 {
     public static class StringExtensions
@@ -31,6 +34,67 @@ namespace Vues.Common.Extensions
         {
             var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        /// <summary>
+        /// Converts a string to Camel Case.
+        /// </summary>
+        /// <param name="input">The input string to convert.</param>
+        /// <returns>The string converted to Camel Case.</returns>
+        public static string ToCamelCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            string[] words = input.Split(' ');
+            StringBuilder result = new StringBuilder(words[0].ToLower());
+
+            for (int i = 1; i < words.Length; i++)
+            {
+                result.Append(char.ToUpper(words[i][0]) + words[i].Substring(1));
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Converts a string to Pascal Case.
+        /// </summary>
+        /// <param name="input">The input string to convert.</param>
+        /// <returns>The string converted to Pascal Case.</returns>
+        public static string ToPascalCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(input.Replace(' ', '_').Replace('-', '_')).Replace("_", "");
+        }
+
+        /// <summary>
+        /// Converts a string to Snake Case.
+        /// </summary>
+        /// <param name="input">The input string to convert.</param>
+        /// <returns>The string converted to Snake Case.</returns>
+        public static string ToSnakeCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            return input.Replace(' ', '_').ToLower();
+        }
+
+        /// <summary>
+        /// Converts a string to Kebab Case.
+        /// </summary>
+        /// <param name="input">The input string to convert.</param>
+        /// <returns>The string converted to Kebab Case.</returns>
+        public static string ToKebabCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            return input.Replace(' ', '-').ToLower();
         }
     }
 }
