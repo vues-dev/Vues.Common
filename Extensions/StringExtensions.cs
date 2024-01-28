@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Globalization;
+using System.Security.Cryptography;
 
 namespace Vues.Common.Extensions
 {
@@ -111,6 +112,20 @@ namespace Vues.Common.Extensions
                 return char.ToUpper(input[0]) + input.Substring(1);
 
             return input.ToUpper();
+        }
+
+        public static string GetSHA256Hash(this string value)
+        {
+            using var hash = SHA256.Create();
+            var byteArray = hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            return Convert.ToHexString(byteArray);
+        }
+
+        public static string GetSHA256Hash(this string value, string salt)
+        {
+            using var hash = SHA256.Create();
+            var byteArray = hash.ComputeHash(Encoding.UTF8.GetBytes(salt + value));
+            return Convert.ToHexString(byteArray);
         }
     }
 }
